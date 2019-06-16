@@ -1,0 +1,36 @@
+{
+  "name": "phusis",
+  "version": "0.0.1",
+  "description": "Physis (Greek: φύσις PHEE-sys) is a Greek theological, philosophical, and scientific term usually translated into English as \"nature\".",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qtisan/phusis.git"
+  },
+  "keywords": [
+    "utilities"
+  ],
+  "author": "Lennon Qian",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/qtisan/phusis/issues"
+  },
+  "homepage": "https://github.com/qtisan/phusis#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
+    "@babel/preset-typescript": "^7.3.3",
+    "@types/jest": "^24.0.15",
+    "jest": "^24.8.0",
+    "ts-jest": "^24.0.2",
+    "typescript": "^3.5.2"
+  },
+  "dependencies": {
+    "uuid": "^3.3.2"
+  }
+}
