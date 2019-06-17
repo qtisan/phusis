@@ -42,7 +42,13 @@ declare namespace utilities {
   
   export function md5(origin: string): string;
 
-  export function genSerial(pre?: string): string;
+  export function genSerial(): string;
+  export function genSerial(pre: string): string;
+  export function genUUID(): string;
+  export function genUUID(type: 'timestamp' | 'namespace' | 'random', param?: string): string;
+  export function genId(): string;
+
+  export function sleep(time: number): Promise<void>;
 
 }
 

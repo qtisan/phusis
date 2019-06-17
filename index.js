@@ -7,3 +7,4 @@ __export(require("./lib/utilities/conversion"));
 __export(require("./lib/utilities/crypto"));
 __export(require("./lib/utilities/factory"));
 __export(require("./lib/utilities/polyfill"));
+__export(require("./lib/utilities/system"));
