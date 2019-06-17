@@ -2,7 +2,7 @@
 import * as phusis from '..';
 
 it('Is `utilities imported?`', () => {
-
+  
   // from `utilities/conversion.js`
   expect(phusis.camelToHyphenate).toBeDefined();
   expect(phusis.camelToUnderscore).toBeDefined();
