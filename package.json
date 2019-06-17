@@ -1,11 +1,11 @@
 {
   "name": "phusis",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Physis (Greek: φύσις PHEE-sys) is a Greek theological, philosophical, and scientific term usually translated into English as \"nature\".",
-  "main": "main.js",
+  "main": "dist/main.js",
   "scripts": {
     "test": "jest",
-    "build": "babel --out-file main.js main.ts"
+    "build": "babel --out-file dist/main.js src/main.ts"
   },
   "repository": {
     "type": "git",
