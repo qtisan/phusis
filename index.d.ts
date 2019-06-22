@@ -2,7 +2,7 @@
 // Project: phusis
 // Definitions by: lennon<http://www.imqx.com>
 
-declare namespace utilities {
+declare module "utilities" {
 
   export function parseJSON(str: string): Object;
   export function camelToHyphenate(name: string): string;
@@ -67,7 +67,7 @@ declare namespace utilities {
 
 }
 
-declare global {
+// declare global {
   interface String {
     isCnNewID(): boolean
   }
@@ -85,6 +85,5 @@ declare global {
     getStamp(): number;
   }
 
-}
+// }
 
-export = utilities;

@@ -25,12 +25,14 @@ it('Is `utilities imported?`', () => {
   expect(phusis.genSerial).toBeDefined();
 
   // from `utilities/polyfill.js`
-  expect(Array.prototype.toTree).toBeDefined();
   expect(Date.prototype.getStamp).toBeDefined();
   expect(Date.getCurrentStamp).toBeDefined();
   expect(String.prototype.isCnNewID).toBeDefined();
   expect(phusis.Exception).toBeDefined();
   expect(phusis.errlog).toBeDefined();
   expect(phusis.caught).toBeDefined();
+
+  // from `utilities/system.js`
+  expect(phusis.sleep).toBeDefined();
 
 });
