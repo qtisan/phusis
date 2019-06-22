@@ -29,7 +29,8 @@ it('Is `utilities imported?`', () => {
   expect(Date.prototype.getStamp).toBeDefined();
   expect(Date.getCurrentStamp).toBeDefined();
   expect(String.prototype.isCnNewID).toBeDefined();
-  expect(Error.prototype.wrap).toBeDefined();
-  expect(Error.prototype.log).toBeDefined();
+  expect(phusis.Exception).toBeDefined();
+  expect(phusis.errlog).toBeDefined();
+  expect(phusis.caught).toBeDefined();
 
 });

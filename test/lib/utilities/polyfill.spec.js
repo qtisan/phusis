@@ -1,4 +1,5 @@
 import '../../..';
+import { caught } from '../../..';
 
 describe('Would these be the build-in functions?', () => {
 
@@ -32,10 +33,10 @@ describe('Would these be the build-in functions?', () => {
     expect(newid.isCnNewID()).toBeTruthy();
   });
 
-  it('Error.prototype.wrap()', () => {
+  it('caught()', () => {
     const error = new Error('I am an error!');
-    const newError = error.wrap('I hide the real error!');
-    const newEntireError = error.wrap({ message: 'I DID hide the real error!', code: 109, type: 'sys' });
+    const newError = caught('I hide the real error!');
+    const newEntireError = caught({ message: 'I DID hide the real error!', code: 109, type: 'sys' });
     expect(newError).toMatchSnapshot();
     expect(newEntireError).toMatchSnapshot();
     // newEntireError.log();
