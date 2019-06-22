@@ -50,6 +50,21 @@ declare namespace utilities {
 
   export function sleep(time: number): Promise<void>;
 
+  export interface Exception extends Error {
+    name: string,
+    code: number,
+    type: string,
+    innerError: Error | Exception | string,
+    log(logger?: { error(): void }): void
+  }
+  export function caught(err: string): Exception;
+  export function caught(err: Error): Exception;
+  export function caught(err: Exception): Exception;
+  export function errlog(err: string): void;
+  export function errlog(err: Error): void;
+  export function errlog(err: Exception): void;
+  export function setLogger(logger: { error(): void });
+
 }
 
 declare global {
@@ -69,16 +84,7 @@ declare global {
   interface Date {
     getStamp(): number;
   }
-  type CustomerError = Error & {
-    code: number,
-    type: string,
-    innerError: Error | CustomerError
-  };
-  interface Error {
-    wrap(errorMessage: string): CustomerError,
-    wrap(err: { message: string, code?: number, type?: string, name?: string }): CustomerError,
-    log(logger?: { error(): void }): void
-  }
+
 }
 
 export = utilities;
