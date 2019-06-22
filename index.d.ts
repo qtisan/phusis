@@ -63,7 +63,7 @@ declare namespace utilities {
   export function errlog(err: string): void;
   export function errlog(err: Error): void;
   export function errlog(err: Exception): void;
-  export function setLogger(logger: { error(): void });
+  export function setLogger(logger: { error(): void }): void;
 
 }
 
