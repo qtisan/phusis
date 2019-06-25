@@ -15,6 +15,16 @@ declare namespace phusis {
   export function num2en(num: number): string;
   export function num2cn(num: number, f?: boolean): string;
 
+  interface IToTreeOptions {
+    id?: string,
+    parent?: string
+  }
+  type TreeNode<T> = {
+    [P in keyof T]: T[P];
+  } & { children: [TreeNode<T>?] };
+  export function list2Tree<T>(list: T[], options?: IToTreeOptions): Array<TreeNode<T>>;
+  
+
   export interface IKeyCodePair {
     key: string,
     code: string
@@ -72,16 +82,6 @@ export = phusis;
 declare global {
   interface String {
     isCnNewID(): boolean
-  }
-  interface IToTreeOptions {
-    id?: string,
-    parent?: string
-  }
-  type TreeNode<T> = {
-    [P in keyof T]: T[P];
-  } & { children: [TreeNode<T>?] };
-  interface Array<T> {
-    toTree(options?: IToTreeOptions): Array<TreeNode<T>>,
   }
   interface Date {
     getStamp(): number;
