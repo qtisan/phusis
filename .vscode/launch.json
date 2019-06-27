@@ -6,6 +6,15 @@
   "configurations": [
     {
       "type": "node",
+      "request": "launch",
+      "name": "unit debug",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}",
+      "program": "${workspaceFolder}/.vscode/debug.js"
+    },
+
+    {
+      "type": "node",
       "name": "vscode-jest-tests",
       "request": "launch",
       "args": [
