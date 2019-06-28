@@ -4,6 +4,7 @@
 
 declare namespace phusis {
 
+  // conversion
   export function parseJSON(str: string): Object;
   export function camelToHyphenate(name: string): string;
   export function hyphenateToCamel(name: string): string;
@@ -24,7 +25,7 @@ declare namespace phusis {
   } & { children: [TreeNode<T>?] };
   export function list2Tree<T>(list: T[], options?: IToTreeOptions): Array<TreeNode<T>>;
   
-
+  // crypto
   export interface IKeyCodePair {
     key: string,
     code: string
@@ -37,7 +38,8 @@ declare namespace phusis {
   }
   export interface IEncodeOptions extends ICryptoOptions {
     cipher?: string,
-    mixed?: (s: string) => string
+    mixed?: (s: string) => string,
+    isHex?: boolean
   }
   export interface IDecodeOptions extends ICryptoOptions {
     remix?: (s: string) => string,
@@ -52,14 +54,94 @@ declare namespace phusis {
   
   export function md5(origin: string): string;
 
+  // authorization
+  export interface Tokens {
+    access_token: string,
+    refresh_token: string,
+    expire_at: number
+  }
+  export interface ServerTokens {
+    tokenKey: string,
+    refreshKey: string,
+    refreshExpire: number,
+    tokens: Tokens
+  }
+  export interface MakeTokensOptions {
+    tokenTimeout?: number,
+    refreshTimeout?: number
+  }
+  export function makeTokens(uid: string, options?: MakeTokensOptions): ServerTokens;
+
+  export interface EncryptedQueryPack {
+    credential: string,
+    q: string
+  }
+  export interface ClientQuery {
+    action: string,
+    payload?: any
+  }
+  export function makeEncryptedQuery(
+    token: string, query: ClientQuery, options?: ICryptoOptions & IEncodeOptions
+  ): EncryptedQueryPack
+
+  export interface ExtractedCredential {
+    token: string,
+    key: string,
+    timestamp: number
+  }
+  export type ExtractCredentialOptions =
+    IDecodeOptions & { expire?: number, join?: string };
+  export function extractCredential(
+    credential: string, options?: ExtractCredentialOptions
+  ): ExtractedCredential | null;
+
+  export type ExtractedQueryPack =
+    (ExtractedCredential & { query: ClientQuery }) | null;
+  export function extractQuery(
+    credential: string, encryptedQuery: string, options?: ExtractCredentialOptions
+  ): ExtractedQueryPack | null;
+
+  export interface OnlineUserPack<U> {
+    user: U,
+    tokens: Tokens
+  }
+  export interface UsernameAndPassword {
+    username: string, password_md5: string
+  }
+  export type VerifyUserPromiseType<U> = (user: UsernameAndPassword) => Promise<U>;
+  export type SaveTokensPromiseType = (uid: string, tokens: ServerTokens) => Promise<boolean>;
+  export function signin<U>(
+    user: UsernameAndPassword, verifyUser: VerifyUserPromiseType<U>,
+    saveTokens: SaveTokensPromiseType, options?: { userIdField?: string }
+  ): Promise<OnlineUserPack<U>>;
+
+  export interface ExecuteQueryPayload<U> {
+    user: U, query: ClientQuery
+  }
+  export type VerifyTokenPromiseType<U> = (token: string) => Promise<U>;
+  export type ExecuteQueryPromiseType<U, R> = (payload: ExecuteQueryPayload<U>) => Promise<R>;
+  export function handleQuery<R, U>(
+    credential: string, encryptedQuery: string, verifyToken: VerifyTokenPromiseType<U>,
+    executeQuery: ExecuteQueryPromiseType<U, R>, options?: ExtractCredentialOptions
+  ): Promise<R>;
+
+  export type VerifyAndSaveRefreshTokenPromiseType =
+    (refreshToken: string, refreshedTokens: ServerTokens) => Promise<Tokens>;
+  export function refreshTokens(
+    tokens: Tokens, verifyAndSaveRefreshToken: VerifyAndSaveRefreshTokenPromiseType, options?: MakeTokensOptions
+  ): Promise<Tokens>;
+
+  // factory
   export function genSerial(): string;
   export function genSerial(pre: string): string;
   export function genUUID(): string;
   export function genUUID(type: 'timestamp' | 'namespace' | 'random', param?: string): string;
   export function genId(): string;
 
+  // system
   export function sleep(time: number): Promise<void>;
 
+  // polyfill
   export interface Exception extends Error {
     name: string,
     code: number,

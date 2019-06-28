@@ -4,4 +4,5 @@ export * from '../lib/utilities/crypto';
 export * from '../lib/utilities/factory';
 export * from '../lib/utilities/polyfill';
 export * from '../lib/utilities/system';
+export * from '../lib/utilities/authorization';
 
