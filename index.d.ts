@@ -172,7 +172,8 @@ declare global {
   }
   interface DateConstructor {
     getCurrentStamp(): number;
-    moment(): typeof moment;
+    moment(inp?: moment.MomentInput, format?: moment.MomentFormatSpecification, strict?: boolean): moment.Moment;
+    moment(inp?: moment.MomentInput, format?: moment.MomentFormatSpecification, language?: string, strict?: boolean): moment.Moment;
   }
 
 }
