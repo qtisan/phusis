@@ -15,14 +15,18 @@
 
     {
       "type": "node",
-      "name": "vscode-jest-tests",
       "request": "launch",
+      "name": "vscode-jest-tests",
+      "protocol": "inspector",
       "args": [
         "--runInBand"
       ],
       "cwd": "${workspaceFolder}",
       "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen",
+      "runtimeArgs": [
+        "--inspect-brk"
+      ],
+      "sourceMaps": true,
       "program": "${workspaceFolder}/node_modules/jest/bin/jest"
     }
   ]

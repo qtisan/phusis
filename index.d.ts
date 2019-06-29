@@ -2,6 +2,8 @@
 // Project: phusis
 // Definitions by: lennon<http://www.imqx.com>
 
+import * as moment from 'moment';
+
 declare namespace phusis {
 
   // conversion
@@ -167,6 +169,10 @@ declare global {
   }
   interface Date {
     getStamp(): number;
+  }
+  interface DateConstructor {
+    getCurrentStamp(): number;
+    moment(): typeof moment;
   }
 
 }
