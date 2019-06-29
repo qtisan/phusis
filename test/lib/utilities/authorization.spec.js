@@ -1,13 +1,16 @@
 
 import {
-  md5, signin, handleQuery,
+  md5, signin, handleQuery, refreshTokens,
   makeEncryptedQuery, 
 } from "../../../src/main";
 
 describe('shoud the query process be ok', () => {
   const serverTokenStore = {
     uid: null,
-    tokens: {
+    lastRefreshDate: '20190101',
+    refreshTimes: 1,
+    refreshLimit: 3000,
+    serverTokens: {
       tokenKey: null, refreshKey: null, refreshExpire: null,
       tokens: {
         access_token: null,
@@ -33,7 +36,7 @@ describe('shoud the query process be ok', () => {
   );
   const saveTokens = (user_id, tokens) => a100(() => {
     serverTokenStore.uid = user_id;
-    serverTokenStore.tokens = tokens;
+    serverTokenStore.serverTokens = tokens;
     return true;
   });
   const saveClientTokens = (tokens) => {
@@ -43,11 +46,11 @@ describe('shoud the query process be ok', () => {
   };
   const verifyToken = (token) => a100(() => {
     const current = Date.getCurrentStamp();
-    if (serverTokenStore.tokens.tokens.access_token !== token) {
+    if (serverTokenStore.serverTokens.tokens.access_token !== token) {
       throw new Error('token not match a user.');
-    } else if (serverTokenStore.tokens.tokens.expire_at < current) {
+    } else if (serverTokenStore.serverTokens.tokens.expire_at < current) {
       throw new Error('access_token expired, should to be refreshed.');
-    } else if (serverTokenStore.tokens.refreshExpire < current) {
+    } else if (serverTokenStore.serverTokens.refreshExpire < current) {
       throw new Error('refresh_token expired, should resignin.')
     } else if (serverTokenStore.uid !== user.user_id) {
       throw new Error('user not exist.');
@@ -76,6 +79,31 @@ describe('shoud the query process be ok', () => {
     limit: 2
   };
   const executeQuery = (payload) => a100(payload && resData);
+  const getUidByAccessToken = (accessToken) => a100(() => {
+    if (accessToken !== serverTokenStore.serverTokens.tokens.access_token) {
+      throw new Error(`token ${accessToken} not found.`);
+    } else {
+      return serverTokenStore.uid;
+    }
+  });
+  const verifyAndSaveRefreshToken = (refreshToken, refreshedToken) => a100(() => {
+    const current = Date.getCurrentStamp();
+    if (serverTokenStore.refreshLimit < serverTokenStore.refreshTimes + 1 &&
+      serverTokenStore.lastRefreshDate === Date.moment().format('YYYYMMDD')) {
+      throw new Error(`refresh limit, max ${serverTokenStore.refreshLimit} times per day.`);
+    } else if (serverTokenStore.serverTokens.refreshExpire < current) {
+      throw new Error(`refresh_token expired at ${
+        Date.moment(serverTokenStore.serverTokens.refreshExpire).format('YYYY-MM-DD hh:mm:ss')
+      }`);
+    } else if (serverTokenStore.serverTokens.tokens.refresh_token !== refreshToken) {
+      throw new Error('refresh_token error.');
+    } else {
+      serverTokenStore.lastRefreshDate = Date.moment().format('YYYYMMDD');
+      serverTokenStore.refreshTimes++;
+      serverTokenStore.serverTokens = refreshedToken;
+      return refreshedToken.tokens;
+    }
+  });
 
   it('shoud sign be ok', async () => {
     const oup = await signin({ username, password_md5 }, verifyUser, saveTokens);
@@ -91,21 +119,28 @@ describe('shoud the query process be ok', () => {
   });
 
   it('should client access_token be expired', async () => {
-    serverTokenStore.tokens.tokens.expire_at -= 30 * 60;
+    serverTokenStore.serverTokens.tokens.expire_at -= 30 * 60;
     const { credential, q } = makeEncryptedQuery(clientTokenStore.access_token, query);
     expect(handleQuery(credential, q, verifyToken, executeQuery))
       .rejects.toThrow(/access_token expired/);
   });
 
+  it('shoud tokens be refreshed, and make a new query.', async () => { 
+    const newTokens = await refreshTokens(clientTokenStore, getUidByAccessToken, verifyAndSaveRefreshToken);
+    clientTokenStore.access_token = newTokens.access_token;
+    clientTokenStore.refresh_token = newTokens.refresh_token;
+    clientTokenStore.expire_at = newTokens.expire_at;
+    const { credential, q } = makeEncryptedQuery(clientTokenStore.access_token, query);
+    const res = await handleQuery(credential, q, verifyToken, executeQuery);
+    expect(res.data.length).toEqual(resData.data.length);
+    expect(res.total).toEqual(resData.total);
+  });
+
   it('shoud client refresh_token be expired', async () => {
-    serverTokenStore.tokens.refreshExpire -= 10 * 24 * 60 * 60;
+    serverTokenStore.serverTokens.refreshExpire -= 10 * 24 * 60 * 60;
     const { credential, q } = makeEncryptedQuery(clientTokenStore.access_token, query);
     expect(handleQuery(credential, q, verifyToken, executeQuery))
       .rejects.toThrow(/refresh_token expired/);
-  });
-
-  it('shoud tokens be refreshed', async () => { 
-    
   });
 
 });

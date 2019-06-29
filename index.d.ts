@@ -129,8 +129,10 @@ declare namespace phusis {
 
   export type VerifyAndSaveRefreshTokenPromiseType =
     (refreshToken: string, refreshedTokens: ServerTokens) => Promise<Tokens>;
+  export type GetUidByAccessTokenPromiseType = (accessToken: string) => Promise<string>;
   export function refreshTokens(
-    tokens: Tokens, verifyAndSaveRefreshToken: VerifyAndSaveRefreshTokenPromiseType, options?: MakeTokensOptions
+    tokens: Tokens, getUidByAccessToken: GetUidByAccessTokenPromiseType,
+    verifyAndSaveRefreshToken: VerifyAndSaveRefreshTokenPromiseType, options?: MakeTokensOptions
   ): Promise<Tokens>;
 
   // factory
