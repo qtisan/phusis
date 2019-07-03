@@ -114,8 +114,10 @@ describe('shoud the query process be ok', () => {
   it('should query from client be ok', async () => {
     const { credential, q } = makeEncryptedQuery(clientTokenStore.access_token, query);
     const res = await handleQuery(credential, q, verifyToken, executeQuery);
-    expect(res.data.length).toEqual(resData.data.length);
-    expect(res.total).toEqual(resData.total);
+    expect(res.result.data.length).toEqual(resData.data.length);
+    expect(res.result.total).toEqual(resData.total);
+    expect(res.query.action).toEqual(query.action);
+    expect(res.user.user_id).toEqual(user.user_id);
   });
 
   it('should client access_token be expired', async () => {
@@ -132,8 +134,10 @@ describe('shoud the query process be ok', () => {
     clientTokenStore.expire_at = newTokens.expire_at;
     const { credential, q } = makeEncryptedQuery(clientTokenStore.access_token, query);
     const res = await handleQuery(credential, q, verifyToken, executeQuery);
-    expect(res.data.length).toEqual(resData.data.length);
-    expect(res.total).toEqual(resData.total);
+    expect(res.result.data.length).toEqual(resData.data.length);
+    expect(res.result.total).toEqual(resData.total);
+    expect(res.query.action).toEqual(query.action);
+    expect(res.user.user_id).toEqual(user.user_id);
   });
 
   it('shoud client refresh_token be expired', async () => {

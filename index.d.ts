@@ -125,7 +125,7 @@ declare namespace phusis {
   export function handleQuery<R, U>(
     credential: string, encryptedQuery: string, verifyToken: VerifyTokenPromiseType<U>,
     executeQuery: ExecuteQueryPromiseType<U, R>, options?: ExtractCredentialOptions
-  ): Promise<R>;
+  ): Promise<{ result: R } & ExecuteQueryPayload<U>>;
 
   export type VerifyAndSaveRefreshTokenPromiseType =
     (refreshToken: string, refreshedTokens: ServerTokens) => Promise<Tokens>;
