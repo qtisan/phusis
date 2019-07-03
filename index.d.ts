@@ -147,19 +147,18 @@ declare namespace phusis {
   export function sleep(time: number): Promise<void>;
 
   // polyfill
-  export interface Exception extends Error {
-    name: string,
-    code: number,
-    type: string,
-    innerError: Error | Exception | string,
-    log(logger?: { error(): void }): void
+  export interface Exception {
+    message: string;
+    code: number;
+    innerError: Error | Exception;
+    log(logger?: { error(): void }): void;
+    new(message?: string, code?: number, error?: Error | Exception): Exception;
   }
-  export function caught(err: string): Exception;
-  export function caught(err: Error): Exception;
-  export function caught(err: Exception): Exception;
-  export function errlog(err: string): void;
-  export function errlog(err: Error): void;
-  export function errlog(err: Exception): void;
+  export function caught(error: Error | Exception, message?: string, code?: number): Exception;
+  export function caught(error: Error | Exception, code?: number): Exception;
+  export function caught(message: string, code?: number): Exception;
+  export function caught(code: number): Exception;
+  
   export function setLogger(logger: { error(): void }): void;
 
 }
