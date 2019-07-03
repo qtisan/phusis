@@ -118,7 +118,7 @@ declare namespace phusis {
   ): Promise<OnlineUserPack<U>>;
 
   export interface ExecuteQueryPayload<U> {
-    user: U, query: ClientQuery
+    user?: U, query?: ClientQuery
   }
   export type VerifyTokenPromiseType<U> = (token: string) => Promise<U>;
   export type ExecuteQueryPromiseType<U, R> = (payload: ExecuteQueryPayload<U>) => Promise<R>;
