@@ -150,8 +150,9 @@ declare namespace phusis {
   export interface Exception {
     message: string;
     code: number;
-    innerError: Error | Exception;
+    innerError: Error | Exception | null;
     log(logger?: { error(): void }): void;
+    stacktrace(pages?: number, logger?: { error(): void }): void;
     new(message?: string, code?: number, error?: Error | Exception): Exception;
   }
   export function caught(error: Error | Exception, message?: string, code?: number): Exception;
