@@ -1,5 +1,3 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Would these be the build-in functions? caught() 1`] = `[CustomerError: I hide the real error!]`;
-
-exports[`Would these be the build-in functions? caught() 2`] = `[CustomerError]`;
+exports[`Would these be the build-in functions? caught() 1`] = `[Error: I DID hide the real error!]`;
