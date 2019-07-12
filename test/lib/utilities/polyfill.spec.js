@@ -1,5 +1,5 @@
 import '../../..';
-import { caught } from '../../..';
+import { caught, isError, isException } from '../../..';
 
 describe('Would these be the build-in functions?', () => {
   it('Date.prototype.getStamp()', () => {
@@ -20,6 +20,11 @@ describe('Would these be the build-in functions?', () => {
     const newEntireError = caught(error, 'I DID hide the real error!', 109);
     expect(newError instanceof Error).toBeTruthy();
     expect(newEntireError).toMatchSnapshot();
-    // newEntireError.log();
+    
+    expect(isError(error)).toBeTruthy();
+    expect(isError(newError)).toBeFalsy();
+    expect(isException(newEntireError)).toBeTruthy();
+    expect(isException(error)).toBeFalsy();
+
   });
 });

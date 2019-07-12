@@ -175,6 +175,9 @@ declare namespace phusis {
   export function caught(code: number): Exception;
 
   export function setLogger(logger: { error(): void }): void;
+
+  export function isException(exception: any): boolean;
+  export function isError(error: any): boolean;
 }
 
 export = phusis;
