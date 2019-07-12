@@ -98,7 +98,7 @@ declare namespace phusis {
   ): ExtractedCredential | null;
 
   export type ExtractedQueryPack =
-    (ExtractedCredential & { query: ClientQuery }) | null;
+    (ExtractedCredential & { query: ClientQuery });
   export function extractQuery(
     credential: string, encryptedQuery: string, options?: ExtractCredentialOptions
   ): ExtractedQueryPack | null;
