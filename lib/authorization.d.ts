@@ -40,14 +40,14 @@ export type ExtractCredentialOptions = IDecodeOptions & { expire?: number; join?
 export function extractCredential(
   credential: string,
   options?: ExtractCredentialOptions
-): ExtractedCredential | null;
+): ExtractedCredential;
 
 export type ExtractedQueryPack = ExtractedCredential & { query: ClientQuery };
 export function extractQuery(
   credential: string,
   encryptedQuery: string,
   options?: ExtractCredentialOptions
-): ExtractedQueryPack | null;
+): ExtractedQueryPack;
 
 export interface OnlineUserPack<U> {
   user: U;
