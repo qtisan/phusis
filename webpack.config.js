@@ -1,24 +1,27 @@
 const path = require('path');
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
   entry: './src/main.ts',
-  devtool: 'inline-source-map',
   module: {
     rules: [
       {
-        test: /\.tsx?$/,
+        test: /\.ts?$/,
         use: 'ts-loader',
         exclude: /node_modules/
       }
     ]
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.js']
+    extensions: ['.ts', '.js']
   },
   output: {
-    filename: 'main.js',
+    filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
     libraryTarget: 'commonjs2'
   },
-  target: 'node'
+  target: 'node',
+  optimization: {
+    minimizer: [new TerserPlugin()]
+  }
 };

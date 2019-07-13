@@ -5,7 +5,13 @@
     "sourceMap": true,
     "module": "commonjs",
     "target": "es5",
-    "jsx": "react",
-    "allowJs": true
-  }
+    "moduleResolution": "node",
+    "jsx": "react"
+    // "noEmit": true,
+    // "strict": true,
+    // "esModuleInterop": true,
+    // "isolatedModules": true,
+    // "allowJs": true
+  },
+  "include": ["src"]
 }
