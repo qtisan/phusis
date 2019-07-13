@@ -1,3 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`Would these be the build-in functions? caught() 1`] = `[Error: I DID hide the real error!]`;
