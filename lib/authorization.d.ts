@@ -23,7 +23,7 @@ export interface EncryptedQueryPack {
 }
 export interface ClientQuery {
   action: string;
-  payload?: any;
+  payload: any;
 }
 export function makeEncryptedQuery(
   token: string,
@@ -67,8 +67,8 @@ export function signin<U>(
 ): Promise<OnlineUserPack<U>>;
 
 export interface ExecuteQueryPayload<U> {
-  user?: U;
-  query?: ClientQuery;
+  user: U;
+  query: ClientQuery;
 }
 export type VerifyTokenPromiseType<U> = (token: string) => Promise<U>;
 export type ExecuteQueryPromiseType<U, R> = (payload: ExecuteQueryPayload<U>) => Promise<R>;
