@@ -11,7 +11,7 @@ export interface ICryptoOptions {
 }
 export interface IEncodeOptions extends ICryptoOptions {
   cipher?: string;
-  mixed?: (s: string) => string;
+  mix?: (s: string) => string;
   isHex?: boolean;
 }
 export interface IDecodeOptions extends ICryptoOptions {
